@@ -69,7 +69,7 @@
 
         private void ConvertWavToOgg(FileInfo wavFileInfo)
         {
-            var p = Process.Start(oggEncoder, wavFileInfo.FullName);
+            var p = Process.Start(oggEncoder, $"\"{wavFileInfo.FullName}\"");
         }
     }
 }
