@@ -22,7 +22,10 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding Mp3Files}">
+        <ListView
+            Grid.Row="1"
+            HorizontalContentAlignment="Stretch"
+            ItemsSource="{Binding Mp3Files}">
             <ListView.ItemTemplate>
 
                 <DataTemplate>
@@ -33,7 +36,23 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Column="0" Text="{Binding Name}" />
-                        <TextBlock Grid.Column="1" Text="未変換" />
+
+                        <TextBlock Grid.Column="1">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Converted}" Value="True">
+                                            <Setter Property="Text" Value="変換済み" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Converted}" Value="False">
+                                            <Setter Property="Text" Value="未変換" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
                     </Grid>
                 </DataTemplate>
 
