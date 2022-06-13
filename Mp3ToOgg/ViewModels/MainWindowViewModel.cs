@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
     using Mp3ToOgg.Models;
     using NAudio.MediaFoundation;
     using NAudio.Wave;
@@ -46,9 +47,7 @@
         {
             Mp3Files.ToList().ForEach(f =>
             {
-                var wavFile = ConvertMp3ToWav(f.FileInfo);
-                ConvertWavToOgg(wavFile);
-                f.Converted = true;
+                var t = ConvertAsync(f);
             });
         });
 
@@ -72,6 +71,16 @@
         private void ConvertWavToOgg(FileInfo wavFileInfo)
         {
             var p = Process.Start(oggEncoder, $"\"{wavFileInfo.FullName}\"");
+        }
+
+        private async Task ConvertAsync(ExFileInfo f)
+        {
+            await Task.Run(() =>
+            {
+                var wavFile = ConvertMp3ToWav(f.FileInfo);
+                ConvertWavToOgg(wavFile);
+                f.Converted = true;
+            });
         }
     }
 }
