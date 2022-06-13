@@ -1,5 +1,7 @@
 ﻿namespace Mp3ToOgg.Models
 {
+    using System.Collections.ObjectModel;
+    using System.IO;
     using System.Linq;
     using System.Windows;
     using Microsoft.Xaml.Behaviors;
@@ -29,7 +31,7 @@
         {
             // ファイルパスの一覧の配列
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            ((sender as Window).DataContext as MainWindowViewModel).Mp3Files = files.Select(p => new System.IO.FileInfo(p)).ToList();
+            ((sender as Window).DataContext as MainWindowViewModel).Mp3Files = new ObservableCollection<FileInfo>(files.Select(p => new FileInfo(p)).ToList());
         }
 
         private void AssociatedObject_PreviewDragOver(object sender, DragEventArgs e)
