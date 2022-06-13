@@ -1,10 +1,12 @@
 ﻿namespace Mp3ToOgg.ViewModels
 {
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using NAudio.MediaFoundation;
     using NAudio.Wave;
+    using Prism.Commands;
     using Prism.Mvvm;
 
     public class MainWindowViewModel : BindableBase
@@ -14,7 +16,9 @@
         // wav -> ogg の変換を行うエンコーダーは実行ファイルと同じ階層に手動で配置する。
         private string oggEncoder = "oggenc2.exe";
 
-        private List<FileInfo> mp3Files;
+        private ObservableCollection<FileInfo> mp3Files;
+
+        private bool canConvert;
 
         public MainWindowViewModel()
         {
@@ -26,7 +30,25 @@
             set { SetProperty(ref title, value); }
         }
 
-        public List<FileInfo> Mp3Files { get => mp3Files; set => SetProperty(ref mp3Files, value); }
+        public bool CanConvert { get => canConvert; set => SetProperty(ref canConvert, value); }
+
+        public ObservableCollection<FileInfo> Mp3Files
+        {
+            get => mp3Files; set
+            {
+                CanConvert = value.Count != 0;
+                SetProperty(ref mp3Files, value);
+            }
+        }
+
+        public DelegateCommand StartConvertCommand => new DelegateCommand(() =>
+        {
+            Mp3Files.ToList().ForEach(f =>
+            {
+                var wavFile = ConvertMp3ToWav(f);
+                ConvertWavToOgg(wavFile);
+            });
+        });
 
         private FileInfo ConvertMp3ToWav(FileInfo mp3File)
         {
@@ -47,7 +69,7 @@
 
         private void ConvertWavToOgg(FileInfo wavFileInfo)
         {
-            Process.Start(oggEncoder, wavFileInfo.FullName);
+            var p = Process.Start(oggEncoder, wavFileInfo.FullName);
         }
     }
 }
