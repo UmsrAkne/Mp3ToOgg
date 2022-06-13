@@ -1,5 +1,6 @@
 ﻿namespace Mp3ToOgg.ViewModels
 {
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using NAudio.MediaFoundation;
@@ -13,10 +14,10 @@
         // wav -> ogg の変換を行うエンコーダーは実行ファイルと同じ階層に手動で配置する。
         private string oggEncoder = "oggenc2.exe";
 
+        private List<FileInfo> mp3Files;
+
         public MainWindowViewModel()
         {
-            var wavFile = ConvertMp3ToWav(new FileInfo("a.mp3"));
-            Process.Start(oggEncoder, wavFile.FullName);
         }
 
         public string Title
@@ -25,7 +26,9 @@
             set { SetProperty(ref title, value); }
         }
 
-        public FileInfo ConvertMp3ToWav(FileInfo mp3File)
+        public List<FileInfo> Mp3Files { get => mp3Files; set => SetProperty(ref mp3Files, value); }
+
+        private FileInfo ConvertMp3ToWav(FileInfo mp3File)
         {
             MediaFoundationReader reader = new MediaFoundationReader(mp3File.FullName);
 
@@ -40,6 +43,11 @@
             }
 
             return wavFileInfo;
+        }
+
+        private void ConvertWavToOgg(FileInfo wavFileInfo)
+        {
+            Process.Start(oggEncoder, wavFileInfo.FullName);
         }
     }
 }
