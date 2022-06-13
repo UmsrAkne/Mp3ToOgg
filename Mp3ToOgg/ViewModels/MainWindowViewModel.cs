@@ -70,7 +70,12 @@
 
         private void ConvertWavToOgg(FileInfo wavFileInfo)
         {
-            var p = Process.Start(oggEncoder, $"\"{wavFileInfo.FullName}\"");
+            var pi = new ProcessStartInfo();
+            pi.FileName = oggEncoder;
+            pi.Arguments = $"\"{wavFileInfo.FullName}\"";
+            pi.UseShellExecute = true;
+            pi.WindowStyle = ProcessWindowStyle.Hidden;
+            Process.Start(pi);
         }
 
         private async Task ConvertAsync(ExFileInfo f)
