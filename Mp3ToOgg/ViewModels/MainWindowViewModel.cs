@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using Mp3ToOgg.Models;
     using NAudio.MediaFoundation;
     using NAudio.Wave;
     using Prism.Commands;
@@ -16,7 +17,7 @@
         // wav -> ogg の変換を行うエンコーダーは実行ファイルと同じ階層に手動で配置する。
         private string oggEncoder = "oggenc2.exe";
 
-        private ObservableCollection<FileInfo> mp3Files;
+        private ObservableCollection<ExFileInfo> mp3Files;
 
         private bool canConvert;
 
@@ -32,7 +33,7 @@
 
         public bool CanConvert { get => canConvert; set => SetProperty(ref canConvert, value); }
 
-        public ObservableCollection<FileInfo> Mp3Files
+        public ObservableCollection<ExFileInfo> Mp3Files
         {
             get => mp3Files; set
             {
@@ -45,8 +46,9 @@
         {
             Mp3Files.ToList().ForEach(f =>
             {
-                var wavFile = ConvertMp3ToWav(f);
+                var wavFile = ConvertMp3ToWav(f.FileInfo);
                 ConvertWavToOgg(wavFile);
+                f.Converted = true;
             });
         });
 
