@@ -31,8 +31,8 @@
         {
             // ファイルパスの一覧の配列
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            ((sender as Window).DataContext as MainWindowViewModel).Mp3Files =
-                new ObservableCollection<ExFileInfo>(files.Select(p => new ExFileInfo(new FileInfo(p))).ToList());
+            var exFiles = files.Select(p => new ExFileInfo(new FileInfo(p))).Where(f => f.FileInfo.Extension == ".mp3" || f.FileInfo.Extension == ".wav");
+            ((sender as Window).DataContext as MainWindowViewModel).Mp3Files = new ObservableCollection<ExFileInfo>(exFiles);
         }
 
         private void AssociatedObject_PreviewDragOver(object sender, DragEventArgs e)
