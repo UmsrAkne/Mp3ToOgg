@@ -6,7 +6,7 @@
     xmlns:m="clr-namespace:Mp3ToOgg.Models"
     xmlns:prism="http://prismlibrary.com/"
     Title="{Binding Title}"
-    Width="525"
+    Width="600"
     Height="350"
     prism:ViewModelLocator.AutoWireViewModel="True"
     AllowDrop="True">
@@ -19,6 +19,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
@@ -60,7 +61,7 @@
 
         </ListView>
 
-        <Border Grid.Row="2">
+        <Grid Grid.Row="2">
             <Button
                 Width="150"
                 Margin="5"
@@ -68,7 +69,18 @@
                 Command="{Binding StartConvertCommand}"
                 Content="変換"
                 IsEnabled="{Binding CanConvert}" />
-        </Border>
+        </Grid>
+
+        <StatusBar Grid.Row="3">
+            <StatusBarItem>
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Foreground="IndianRed"
+                    Text="{Binding Message}" />
+            </StatusBarItem>
+
+        </StatusBar>
+
 
         <ContentControl prism:RegionManager.RegionName="ContentRegion" />
     </Grid>
