@@ -22,6 +22,8 @@
 
         private bool canConvert;
 
+        private string message = string.Empty;
+
         public MainWindowViewModel()
         {
         }
@@ -43,12 +45,23 @@
             }
         }
 
+        public string Message { get => message; set => SetProperty(ref message, value); }
+
         public DelegateCommand StartConvertCommand => new DelegateCommand(() =>
         {
-            Mp3Files.ToList().ForEach(f =>
+            if (File.Exists(oggEncoder))
             {
-                var t = ConvertAsync(f);
-            });
+                Message = string.Empty;
+
+                Mp3Files.ToList().ForEach(f =>
+                {
+                    var t = ConvertAsync(f);
+                });
+            }
+            else
+            {
+                Message = $"{new FileInfo(oggEncoder).FullName} が見つかりません。";
+            }
         });
 
         private FileInfo ConvertMp3ToWav(FileInfo mp3File)
