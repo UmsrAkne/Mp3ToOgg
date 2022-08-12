@@ -62,13 +62,23 @@
         </ListView>
 
         <Grid Grid.Row="2">
-            <Button
-                Width="150"
-                Margin="5"
-                HorizontalAlignment="Right"
-                Command="{Binding StartConvertCommand}"
-                Content="変換"
-                IsEnabled="{Binding CanConvert}" />
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+
+                <Button
+                    Width="150"
+                    Margin="5"
+                    Command="{Binding StartConvertToWavCommand}"
+                    Content="mp3 -&gt; wav"
+                    IsEnabled="{Binding CanConvert}" />
+
+                <Button
+                    Width="150"
+                    Margin="5"
+                    Command="{Binding StartConvertCommand}"
+                    Content="mp3 -&gt; ogg"
+                    IsEnabled="{Binding CanConvert}" />
+
+            </StackPanel>
         </Grid>
 
         <StatusBar Grid.Row="3">
