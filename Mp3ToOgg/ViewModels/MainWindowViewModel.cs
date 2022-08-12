@@ -13,7 +13,7 @@
 
     public class MainWindowViewModel : BindableBase
     {
-        private string title = "Prism Application";
+        private string title = "mp3 to ogg converter";
 
         // wav -> ogg の変換を行うエンコーダーは実行ファイルと同じ階層に手動で配置する。
         private string oggEncoder = "oggenc2.exe";
@@ -64,6 +64,23 @@
             }
         });
 
+        public DelegateCommand StartConvertToWavCommand => new DelegateCommand(() =>
+        {
+            if (File.Exists(oggEncoder))
+            {
+                Message = string.Empty;
+
+                Mp3Files.ToList().ForEach(f =>
+                {
+                    var t = ConvertToWavAsync(f);
+                });
+            }
+            else
+            {
+                Message = $"{new FileInfo(oggEncoder).FullName} が見つかりません。";
+            }
+        });
+
         private FileInfo ConvertMp3ToWav(FileInfo mp3File)
         {
             MediaFoundationReader reader = new MediaFoundationReader(mp3File.FullName);
@@ -97,6 +114,15 @@
             {
                 var wavFile = ConvertMp3ToWav(f.FileInfo);
                 ConvertWavToOgg(wavFile);
+                f.Converted = true;
+            });
+        }
+
+        private async Task ConvertToWavAsync(ExFileInfo f)
+        {
+            await Task.Run(() =>
+            {
+                var wavFile = ConvertMp3ToWav(f.FileInfo);
                 f.Converted = true;
             });
         }
