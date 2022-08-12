@@ -13,7 +13,7 @@
 
     public class MainWindowViewModel : BindableBase
     {
-        private string title = "Prism Application";
+        private string title = "mp3 to ogg converter";
 
         // wav -> ogg の変換を行うエンコーダーは実行ファイルと同じ階層に手動で配置する。
         private string oggEncoder = "oggenc2.exe";
