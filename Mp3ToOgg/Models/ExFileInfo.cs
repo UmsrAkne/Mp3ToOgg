@@ -1,8 +1,8 @@
-﻿namespace Mp3ToOgg.Models
-{
-    using System.IO;
-    using Prism.Mvvm;
+﻿using System.IO;
+using Prism.Mvvm;
 
+namespace Mp3ToOgg.Models
+{
     public class ExFileInfo : BindableBase
     {
         private FileInfo fileInfo;
@@ -15,7 +15,7 @@
 
         public string Name => FileInfo.Name;
 
-        public FileInfo FileInfo { get => fileInfo; set => SetProperty(ref fileInfo, value); }
+        public FileInfo FileInfo { get => fileInfo; private set => SetProperty(ref fileInfo, value); }
 
         public bool Converted { get => converted; set => SetProperty(ref converted, value); }
     }
