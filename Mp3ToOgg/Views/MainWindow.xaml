@@ -6,6 +6,11 @@
     xmlns:m="clr-namespace:Mp3ToOgg.Models"
     xmlns:prism="http://prismlibrary.com/"
     Title="{Binding Title}"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:viewModels="clr-namespace:Mp3ToOgg.ViewModels"
+    d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
     Width="600"
     Height="350"
     prism:ViewModelLocator.AutoWireViewModel="True"
@@ -91,7 +96,6 @@
 
         </StatusBar>
 
-
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+        <ContentControl prism:RegionManager.RegionName="ContentRegion" Grid.Row="3"/>
     </Grid>
 </Window>
