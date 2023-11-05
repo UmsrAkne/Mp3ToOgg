@@ -86,16 +86,24 @@
             </StackPanel>
         </Grid>
 
-        <StatusBar Grid.Row="3">
-            <StatusBarItem>
-                <TextBlock
-                    Foreground="IndianRed"
-                    Text="{Binding Message}"
-                    VerticalAlignment="Center" />
-            </StatusBarItem>
+        <StackPanel Grid.Row="3">
 
-        </StatusBar>
+            <ProgressBar
+                Height="5"
+                Maximum="{Binding Mp3Files.Count}"
+                Minimum="0"
+                Value="{Binding ConvertedCounter}" />
 
+            <StatusBar>
+                <StatusBarItem>
+                    <TextBlock
+                        Foreground="IndianRed"
+                        Text="{Binding Message}"
+                        VerticalAlignment="Center" />
+                </StatusBarItem>
+
+            </StatusBar>
+        </StackPanel>
         <ContentControl Grid.Row="3" prism:RegionManager.RegionName="ContentRegion" />
     </Grid>
 </Window>
