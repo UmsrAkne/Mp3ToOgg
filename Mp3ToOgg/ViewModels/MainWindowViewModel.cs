@@ -24,10 +24,13 @@ namespace Mp3ToOgg.ViewModels
         private bool canConvert;
 
         private string message = string.Empty;
+        private int convertedCounter;
 
         public string Title { get => title; set => SetProperty(ref title, value); }
 
         public bool CanConvert { get => canConvert; set => SetProperty(ref canConvert, value); }
+
+        public int ConvertedCounter { get => convertedCounter; set => SetProperty(ref convertedCounter, value); }
 
         public ObservableCollection<ExFileInfo> Mp3Files
         {
@@ -95,7 +98,15 @@ namespace Mp3ToOgg.ViewModels
 
         private void ConvertWavToOgg(FileInfo wavFileInfo)
         {
-            var pi = new ProcessStartInfo
+            var pr = new Process();
+            pr.EnableRaisingEvents = true;
+            pr.Exited += (sender, e) =>
+            {
+                ConvertedCounter++;
+                pr.Dispose();
+            };
+
+            pr.StartInfo = new ProcessStartInfo
             {
                 FileName = OggEncoder,
                 Arguments = $"\"{wavFileInfo.FullName}\"",
@@ -103,7 +114,7 @@ namespace Mp3ToOgg.ViewModels
                 WindowStyle = ProcessWindowStyle.Hidden,
             };
 
-            Process.Start(pi);
+            pr.Start();
         }
 
         private async Task ConvertToWavAsync(ExFileInfo f)
@@ -112,6 +123,7 @@ namespace Mp3ToOgg.ViewModels
             {
                 ConvertMp3ToWav(f.FileInfo);
                 f.Converted = true;
+                ConvertedCounter++;
             });
         }
 
