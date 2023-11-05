@@ -78,7 +78,7 @@
 
                 <Button
                     Command="{Binding StartConvertCommand}"
-                    Content="mp3 -&gt; ogg"
+                    Content="mp3, wav -&gt; ogg"
                     IsEnabled="{Binding CanConvert}"
                     Margin="5"
                     Width="150" />
