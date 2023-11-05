@@ -49,7 +49,7 @@ namespace Mp3ToOgg.ViewModels
 
                 Mp3Files.ToList().ForEach(f =>
                 {
-                    var _ = ConvertAsync(f);
+                    var _ = ConvertToOggAsync(f);
                 });
             }
             else
@@ -121,6 +121,27 @@ namespace Mp3ToOgg.ViewModels
             await Task.Run(() =>
             {
                 ConvertMp3ToWav(f.FileInfo);
+                f.Converted = true;
+            });
+        }
+
+        /// <summary>
+        ///     入力された mp3, ogg ファイルを ogg　に変換します。
+        /// </summary>
+        /// <param name="f">.mp3, .ogg の ExFileInfo</param>
+        private async Task ConvertToOggAsync(ExFileInfo f)
+        {
+            await Task.Run(() =>
+            {
+                if (f.FileInfo.Extension == ".mp3")
+                {
+                    ConvertMp3ToWav(f.FileInfo);
+                    f.SetExtension(".wav");
+                }
+
+                ConvertWavToOgg(f.FileInfo);
+                f.SetExtension(".ogg");
+
                 f.Converted = true;
             });
         }

@@ -1,20 +1,20 @@
 ﻿<Window
+    AllowDrop="True"
+    Height="350"
+    Title="{Binding Title}"
+    Width="600"
+    d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
+    mc:Ignorable="d"
+    prism:ViewModelLocator.AutoWireViewModel="True"
     x:Class="Mp3ToOgg.Views.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:m="clr-namespace:Mp3ToOgg.Models"
-    xmlns:prism="http://prismlibrary.com/"
-    Title="{Binding Title}"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+    xmlns:prism="http://prismlibrary.com/"
     xmlns:viewModels="clr-namespace:Mp3ToOgg.ViewModels"
-    d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
-    Width="600"
-    Height="350"
-    prism:ViewModelLocator.AutoWireViewModel="True"
-    AllowDrop="True">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <i:Interaction.Behaviors>
         <m:DropBehavior />
@@ -70,18 +70,18 @@
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 
                 <Button
-                    Width="150"
-                    Margin="5"
                     Command="{Binding StartConvertToWavCommand}"
                     Content="mp3 -&gt; wav"
-                    IsEnabled="{Binding CanConvert}" />
+                    IsEnabled="{Binding CanConvert}"
+                    Margin="5"
+                    Width="150" />
 
                 <Button
-                    Width="150"
-                    Margin="5"
                     Command="{Binding StartConvertCommand}"
-                    Content="mp3 -&gt; ogg"
-                    IsEnabled="{Binding CanConvert}" />
+                    Content="mp3, wav -&gt; ogg"
+                    IsEnabled="{Binding CanConvert}"
+                    Margin="5"
+                    Width="150" />
 
             </StackPanel>
         </Grid>
@@ -89,13 +89,13 @@
         <StatusBar Grid.Row="3">
             <StatusBarItem>
                 <TextBlock
-                    VerticalAlignment="Center"
                     Foreground="IndianRed"
-                    Text="{Binding Message}" />
+                    Text="{Binding Message}"
+                    VerticalAlignment="Center" />
             </StatusBarItem>
 
         </StatusBar>
 
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" Grid.Row="3"/>
+        <ContentControl Grid.Row="3" prism:RegionManager.RegionName="ContentRegion" />
     </Grid>
 </Window>
