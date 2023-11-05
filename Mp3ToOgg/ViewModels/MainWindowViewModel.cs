@@ -106,16 +106,6 @@ namespace Mp3ToOgg.ViewModels
             Process.Start(pi);
         }
 
-        private async Task ConvertAsync(ExFileInfo f)
-        {
-            await Task.Run(() =>
-            {
-                var wavFile = ConvertMp3ToWav(f.FileInfo);
-                ConvertWavToOgg(wavFile);
-                f.Converted = true;
-            });
-        }
-
         private async Task ConvertToWavAsync(ExFileInfo f)
         {
             await Task.Run(() =>
