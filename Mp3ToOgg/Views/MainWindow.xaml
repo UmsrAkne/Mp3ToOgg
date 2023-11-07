@@ -67,22 +67,32 @@
         </ListView>
 
         <Grid Grid.Row="2">
-            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+            <StackPanel>
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 
-                <Button
-                    Command="{Binding StartConvertToWavCommand}"
-                    Content="mp3 -&gt; wav"
-                    IsEnabled="{Binding CanConvert}"
-                    Margin="5"
-                    Width="150" />
+                    <Button
+                        Command="{Binding StartConvertToWavCommand}"
+                        Content="mp3 -&gt; wav"
+                        IsEnabled="{Binding CanConvert}"
+                        Margin="5"
+                        Width="150" />
 
-                <Button
-                    Command="{Binding StartConvertCommand}"
-                    Content="mp3, wav -&gt; ogg"
-                    IsEnabled="{Binding CanConvert}"
-                    Margin="5"
-                    Width="150" />
+                    <Button
+                        Command="{Binding StartConvertCommand}"
+                        Content="mp3, wav -&gt; ogg"
+                        IsEnabled="{Binding CanConvert}"
+                        Margin="5"
+                        Width="150" />
 
+                </StackPanel>
+                <StackPanel Margin="0,2" Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding DeleteIntermediateFile}" VerticalAlignment="Center" />
+                    <Border Margin="3,0" Width="0" />
+                    <TextBlock
+                        FontSize="13"
+                        Text="中間生成される .wav を自動削除する"
+                        VerticalAlignment="Center" />
+                </StackPanel>
             </StackPanel>
         </Grid>
 
