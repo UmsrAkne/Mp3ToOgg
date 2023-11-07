@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -25,12 +26,20 @@ namespace Mp3ToOgg.ViewModels
 
         private string message = string.Empty;
         private int convertedCounter;
+        private bool deleteIntermediateFile = true;
+        private List<FileInfo> intermediateFileInfos = new List<FileInfo>();
 
         public string Title { get => title; set => SetProperty(ref title, value); }
 
         public bool CanConvert { get => canConvert; set => SetProperty(ref canConvert, value); }
 
         public int ConvertedCounter { get => convertedCounter; set => SetProperty(ref convertedCounter, value); }
+
+        public bool DeleteIntermediateFile
+        {
+            get => deleteIntermediateFile;
+            set => SetProperty(ref deleteIntermediateFile, value);
+        }
 
         public ObservableCollection<ExFileInfo> Mp3Files
         {
@@ -103,6 +112,12 @@ namespace Mp3ToOgg.ViewModels
             pr.Exited += (sender, e) =>
             {
                 ConvertedCounter++;
+                if (ConvertedCounter == Mp3Files.Count && DeleteIntermediateFile)
+                {
+                    intermediateFileInfos.ForEach(f => f.Delete());
+                    intermediateFileInfos = new List<FileInfo>();
+                }
+
                 pr.Dispose();
             };
 
@@ -139,6 +154,7 @@ namespace Mp3ToOgg.ViewModels
                 {
                     ConvertMp3ToWav(f.FileInfo);
                     f.SetExtension(".wav");
+                    intermediateFileInfos.Add(new FileInfo(f.FileInfo.FullName));
                 }
 
                 ConvertWavToOgg(f.FileInfo);
