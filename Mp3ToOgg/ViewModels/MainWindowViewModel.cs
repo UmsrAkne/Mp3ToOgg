@@ -61,7 +61,7 @@ namespace Mp3ToOgg.ViewModels
 
                 Mp3Files.ToList().ForEach(f =>
                 {
-                    var _ = ConvertToOggAsync(f);
+                    _ = ConvertToOggAsync(f);
                 });
             }
             else
@@ -78,7 +78,7 @@ namespace Mp3ToOgg.ViewModels
 
                 Mp3Files.ToList().ForEach(f =>
                 {
-                    var _ = ConvertToWavAsync(f);
+                    _ = ConvertToWavAsync(f);
                 });
             }
             else
@@ -87,7 +87,7 @@ namespace Mp3ToOgg.ViewModels
             }
         });
 
-        private FileInfo ConvertMp3ToWav(FileInfo mp3File)
+        private void ConvertMp3ToWav(FileInfo mp3File)
         {
             MediaFoundationReader reader = new MediaFoundationReader(mp3File.FullName);
 
@@ -101,8 +101,6 @@ namespace Mp3ToOgg.ViewModels
             {
                 encoder.Encode(wavFileInfo.FullName, reader);
             }
-
-            return wavFileInfo;
         }
 
         private void ConvertWavToOgg(FileInfo wavFileInfo)
